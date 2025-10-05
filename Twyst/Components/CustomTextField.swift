@@ -10,26 +10,40 @@ import SwiftUI
 struct CustomTextField: View {
     var placeholder: String
     @Binding var text: String
-    var icon: String? = nil
+    var password: Bool = false
+
+    @State private var showPassword: Bool = false
 
     var body: some View {
         HStack {
-            if let icon = icon {
-                Image(systemName: icon)
-                    .foregroundColor(.gray)
+            if !password || showPassword {
+                TextField(placeholder, text: $text).font(.DIN())
+                    .fontWeight(.medium)
+            } else {
+                SecureField(placeholder, text: $text).font(.DIN())
+                    .fontWeight(.medium)
             }
 
-            TextField(placeholder, text: $text)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
+            if password {
+                Button(action: { showPassword.toggle() }) {
+                    Image(systemName: showPassword ? "eye.slash" : "eye")
+                        .foregroundColor(.gray)
+                }
+            }
         }
         .padding()
-        .background(Color.gray.opacity(0.1))
+        .background(.white)
         .cornerRadius(10)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                .stroke(.lightGray, lineWidth: 2)
         )
-        .padding(.horizontal)
     }
+}
+
+#Preview {
+    @Previewable @State var value: String = ""
+
+    CustomTextField(placeholder: "Search", text: $value, password: true)
+        .padding(.horizontal)
 }

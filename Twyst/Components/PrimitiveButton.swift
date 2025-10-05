@@ -64,18 +64,10 @@ struct PrimitiveButton: View {
         default: return 0
         }
     }
-    
-    private var shadowColor: Color {
-        type == .primary ? .black.opacity(0.2) : .clear
-    }
-    
-    private var shadowRadius: CGFloat {
-        type == .primary ? 4 : 0
-    }
 }
 
 #Preview {
-    PrimitiveButton(content: "Log In", type: .tertiary) {
+    PrimitiveButton(content: "Log In", type: .secondary) {
         print("Test")
     }.padding(.horizontal)
 }

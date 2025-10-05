@@ -9,7 +9,29 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            TabView {
+                PathTab()
+                    .tabItem {
+                        Image(systemName: "graduationcap")
+                    }
+
+                ProfileTab()
+                    .tabItem {
+                        Image(systemName: "person.crop.circle")
+                    }
+
+                LibraryTab()
+                    .tabItem {
+                        Image(systemName: "books.vertical")
+                    }
+                
+                ResultsTab()
+                    .tabItem {
+                        Image(systemName: "trophy")
+                    }
+            }
+        }.navigationBarBackButtonHidden(true)
     }
 }
 

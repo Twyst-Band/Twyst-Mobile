@@ -7,19 +7,27 @@
 
 import SwiftUI
 
-struct LoginView: View {
+struct RegisterView: View {
     var onSuccess: () -> Void
     var onBack: () -> Void
 
+    @State var username: String = ""
     @State var email: String = ""
     @State var password: String = ""
+    @State var repeatPassword: String = ""
 
     var body: some View {
         VStack(spacing: 45) {
-            Text("Log In").font(.DIN(size: 36)).fontWeight(.bold)
+            Text("Register").font(.DIN(size: 36)).fontWeight(.bold)
                 .foregroundStyle(.black.opacity(0.7))
 
             VStack(spacing: 10) {
+                LabeledTextField(
+                    label: "Username",
+                    placeholder: "Eg. Twysty123",
+                    text: $username
+                )
+                
                 LabeledTextField(
                     label: "Email",
                     placeholder: "Ex. fox@twyst.com",
@@ -32,10 +40,17 @@ struct LoginView: View {
                     text: $password,
                     password: true
                 )
+                
+                LabeledTextField(
+                    label: "Repeat password",
+                    placeholder: "Repeat password",
+                    text: $repeatPassword,
+                    password: true
+                )
             }
 
             VStack(spacing: 16) {
-                PrimitiveButton(content: "Log In", type: .primary) {
+                PrimitiveButton(content: "Register", type: .primary) {
                     onSuccess()
                 }
 
@@ -47,22 +62,20 @@ struct LoginView: View {
                     Text("Or continue with")
                         .frame(maxWidth: .infinity).fixedSize(
                             horizontal: true, vertical: false
-                        ).lineLimit(1).padding(.horizontal).foregroundStyle(
-                            .black.opacity(0.2)
-                        ).font(.DIN(size: 16)).fontWeight(.bold)
+                        ).lineLimit(1).padding(.horizontal).foregroundStyle(.black.opacity(0.2)).font(.DIN(size: 16)).fontWeight(.bold)
 
                     Rectangle()
                         .frame(height: 2)
                         .foregroundStyle(.black.opacity(0.2))
                 }
-
+                
                 HStack(spacing: 12) {
                     PrimitiveButton(content: "Google", type: .secondary) {
-
+                        
                     }
-
+                    
                     PrimitiveButton(content: "Apple", type: .secondary) {
-
+                        
                     }
                 }
             }
@@ -71,5 +84,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(onSuccess: {}, onBack: {})
+    RegisterView(onSuccess: {}, onBack: {})
 }

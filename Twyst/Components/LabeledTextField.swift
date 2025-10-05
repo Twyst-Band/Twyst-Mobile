@@ -9,7 +9,7 @@ struct LabeledTextField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(label)
-                .font(.DIN(size: 20))
+                .font(.DIN())
                 .fontWeight(.medium)
                 .foregroundColor(.black.opacity(0.5))
             CustomTextField(
