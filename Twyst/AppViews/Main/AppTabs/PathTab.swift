@@ -291,8 +291,8 @@ struct PathTab: View {
                                     .foregroundStyle(.black.opacity(0.8))
                             }
                             
-                            HStack(spacing: 20) {
-                                VStack(alignment: .leading, spacing: 4) {
+                            HStack(spacing: 12) {
+                                VStack(alignment: .center, spacing: 4) {
                                     Text("28")
                                         .font(.DIN(size: 24))
                                         .fontWeight(.bold)
@@ -303,12 +303,14 @@ struct PathTab: View {
                                         .fontWeight(.medium)
                                         .foregroundStyle(.black.opacity(0.5))
                                         .lineLimit(2)
+                                        .multilineTextAlignment(.center)
                                 }
+                                .frame(maxWidth: .infinity)
                                 
                                 Divider()
                                     .frame(height: 40)
                                 
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .center, spacing: 4) {
                                     Text("4")
                                         .font(.DIN(size: 24))
                                         .fontWeight(.bold)
@@ -319,12 +321,14 @@ struct PathTab: View {
                                         .fontWeight(.medium)
                                         .foregroundStyle(.black.opacity(0.5))
                                         .lineLimit(2)
+                                        .multilineTextAlignment(.center)
                                 }
+                                .frame(maxWidth: .infinity)
                                 
                                 Divider()
                                     .frame(height: 40)
                                 
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .center, spacing: 4) {
                                     Text("12")
                                         .font(.DIN(size: 24))
                                         .fontWeight(.bold)
@@ -335,7 +339,9 @@ struct PathTab: View {
                                         .fontWeight(.medium)
                                         .foregroundStyle(.black.opacity(0.5))
                                         .lineLimit(2)
+                                        .multilineTextAlignment(.center)
                                 }
+                                .frame(maxWidth: .infinity)
                             }
                         }
                         

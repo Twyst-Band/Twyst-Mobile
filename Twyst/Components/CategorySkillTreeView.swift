@@ -88,7 +88,7 @@ struct CategorySkillTreeView: View {
             }
         }
         .fullScreenCover(item: $selectedSkill) { skill in
-            SkillDetailView(skill: skill, categoryColor: category.color)
+            SkillDetailView(skill: skill, categoryColor: category.color, categoryName: category.name)
         }
     }
 }
@@ -295,6 +295,31 @@ struct SkillDetailView: View {
     @Environment(\.dismiss) var dismiss
     let skill: SkillNode
     let categoryColor: Color
+    let categoryName: String
+    @State private var showExerciseDetail: Bool = false
+    
+    // Cached random duration
+    let estimatedDuration: String
+    
+    init(skill: SkillNode, categoryColor: Color, categoryName: String) {
+        self.skill = skill
+        self.categoryColor = categoryColor
+        self.categoryName = categoryName
+        
+        // Initialize random duration once based on difficulty
+        switch skill.difficulty {
+        case "Beginner":
+            self.estimatedDuration = "\(Int.random(in: 5...15)) min"
+        case "Intermediate":
+            self.estimatedDuration = "\(Int.random(in: 15...30)) min"
+        case "Advanced":
+            self.estimatedDuration = "\(Int.random(in: 25...45)) min"
+        case "Expert":
+            self.estimatedDuration = "\(Int.random(in: 40...60)) min"
+        default:
+            self.estimatedDuration = "20 min"
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -367,7 +392,7 @@ struct SkillDetailView: View {
                         .padding(.horizontal)
                     
                     PrimitiveButton(content: "Start Exercise", type: .primary) {
-                        dismiss()
+                        showExerciseDetail = true
                     }
                     .padding(.horizontal)
                     
@@ -389,6 +414,14 @@ struct SkillDetailView: View {
                     }
                 }
             }
+        }
+        .fullScreenCover(isPresented: $showExerciseDetail) {
+            ExerciseDetailView(
+                title: skill.name,
+                duration: estimatedDuration,
+                difficulty: skill.difficulty,
+                category: categoryName
+            )
         }
     }
 }

@@ -22,75 +22,90 @@ struct UserDetailView: View {
     // Mock data - same for all users
     let bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod"
     let joinDate = "September 2025"
-    let following = Int.random(in: 20...150)
-    let courses = Int.random(in: 3...12)
     
-    // Random stats - different each time profile is opened
-    let dayStreak = Int.random(in: 1...365)
-    let avgAccuracy = "\(Int.random(in: 65...99))%"
-    let totalXP = "\(Int.random(in: 1000...9999)) XP"
-    let gymScore = Int.random(in: 10...50)
+    // Cached random stats
+    let following: Int
+    let courses: Int
+    let dayStreak: Int
+    let avgAccuracy: String
+    let totalXP: String
+    let gymScore: Int
+    
+    init(username: String, name: String, followers: Int) {
+        self.username = username
+        self.name = name
+        self.followers = followers
+        
+        // Initialize random stats once
+        self.following = Int.random(in: 20...150)
+        self.courses = Int.random(in: 3...12)
+        self.dayStreak = Int.random(in: 1...365)
+        self.avgAccuracy = "\(Int.random(in: 65...99))%"
+        self.totalXP = "\(Int.random(in: 1000...9999)) XP"
+        self.gymScore = Int.random(in: 10...50)
+    }
     
     var body: some View {
-        ScrollView {
-            VStack {
-                // Header with background
-                VStack {
-                    HStack {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "chevron.left").foregroundStyle(
-                            .black.opacity(0.6))
-                                Text("Back")
-                                    .font(.DIN())
-                                    .fontWeight(.medium)
-                                    .foregroundStyle(.black.opacity(0.6))
-                            }
-                            .foregroundStyle(.lightBlue)
-                            .padding(.leading)
-                            .padding(.top)
-                        }
-                        
-                        Spacer()
-                        
-                        Menu {
-                            Button(action: {
-                                showBlockAlert = true
-                            }) {
-                                Label("Block User", systemImage: "hand.raised.fill")
-                            }
-                            
-                            Button(action: {
-                                showReportSheet = true
-                            }) {
-                                Label("Report User", systemImage: "exclamationmark.triangle.fill")
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .font(.system(size: 24))
-                                .foregroundStyle(.black.opacity(0.7))
-                                .padding(.trailing)
-                                .padding(.top)
-                        }
+        VStack(spacing: 0) {
+            // Sticky Header with back button
+            HStack {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(.black.opacity(0.6))
+                        Text("Back")
+                            .font(.DIN())
+                            .fontWeight(.medium)
+                            .foregroundStyle(.black.opacity(0.6))
+                    }
+                }
+                
+                Spacer()
+                
+                Menu {
+                    Button(action: {
+                        showBlockAlert = true
+                    }) {
+                        Label("Block User", systemImage: "hand.raised.fill")
                     }
                     
-                    Spacer()
-                    
-                    Image("profile-pic")
+                    Button(action: {
+                        showReportSheet = true
+                    }) {
+                        Label("Report User", systemImage: "exclamationmark.triangle.fill")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.system(size: 24))
+                        .foregroundStyle(.black.opacity(0.7))
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top)
+            .padding(.bottom, 12)
+            .background(Color.white)
+            
+            ScrollView {
+                VStack {
+                    // Header with background and profile image
+                    VStack {
+                        Spacer()
+                        
+                        Image("profile-pic")
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: 200)
                 }
-                .frame(height: 316)
+                .frame(height: 260)
                 .frame(maxWidth: .infinity)
                 .background {
                     Image("login-bg")
                         .resizable()
                         .scaledToFill()
                         .frame(minWidth: 800)
-                        .frame(width: UIScreen.main.bounds.width, height: 316)
+                        .frame(width: UIScreen.main.bounds.width, height: 260)
                         .clipped()
                 }
                 .background(.lightBlue.opacity(0.6))
@@ -244,6 +259,7 @@ struct UserDetailView: View {
                 .padding(.horizontal)
                 
                 Spacer()
+                }
             }
         }
         .background(Color.white)

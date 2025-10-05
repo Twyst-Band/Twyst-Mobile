@@ -33,11 +33,32 @@ struct FollowersListView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header with back button
-            HStack {
-                Button(action: {
-                    dismiss()
-                }) {
+            // Sticky Header with back button
+            VStack(spacing: 0) {
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 16))
+                            Text("Back")
+                                .font(.DIN())
+                                .fontWeight(.medium)
+                        }
+                        .foregroundStyle(.lightBlue)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(title)
+                        .font(.DIN(size: 20))
+                        .fontWeight(.bold)
+                        .foregroundStyle(.black.opacity(0.7))
+                    
+                    Spacer()
+                    
+                    // Placeholder for symmetry
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16))
@@ -45,30 +66,13 @@ struct FollowersListView: View {
                             .font(.DIN())
                             .fontWeight(.medium)
                     }
-                    .foregroundStyle(.lightBlue)
+                    .opacity(0)
                 }
-                
-                Spacer()
-                
-                Text(title)
-                    .font(.DIN(size: 20))
-                    .fontWeight(.bold)
-                    .foregroundStyle(.black.opacity(0.7))
-                
-                Spacer()
-                
-                // Placeholder for symmetry
-                HStack(spacing: 4) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 16))
-                    Text("Back")
-                        .font(.DIN())
-                        .fontWeight(.medium)
-                }
-                .opacity(0)
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom, 12)
+                .background(Color.white)
             }
-            .padding(.horizontal)
-            .padding(.top)
             
             // Search bar
             HStack {

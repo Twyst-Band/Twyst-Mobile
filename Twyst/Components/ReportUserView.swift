@@ -26,25 +26,29 @@ struct ReportUserView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header with back button
-            HStack {
-                Button(action: {
-                    dismiss()
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 16))
-                        Text("Back")
-                            .font(.DIN())
-                            .fontWeight(.medium)
+            // Sticky Header with back button
+            VStack(spacing: 0) {
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 16))
+                            Text("Back")
+                                .font(.DIN())
+                                .fontWeight(.medium)
+                        }
+                        .foregroundStyle(.lightBlue)
                     }
-                    .foregroundStyle(.lightBlue)
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom, 12)
+                .background(Color.white)
             }
-            .padding(.horizontal)
-            .padding(.top)
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {

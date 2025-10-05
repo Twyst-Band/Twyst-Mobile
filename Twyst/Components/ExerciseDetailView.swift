@@ -15,33 +15,56 @@ struct ExerciseDetailView: View {
     let category: String
     
     @State private var isFavorited: Bool = false
+    @State private var bandanasVerified: Bool = false
+    @State private var isVerifying: Bool = false
+    @State private var showActiveWorkout: Bool = false
     
-    // Random mock data
-    let minBandanas = Int.random(in: 1...5)
-    let caloriesBurned = Int.random(in: 50...500)
-    let xpReward = Int.random(in: 10...100)
+    // Cached random mock data
+    let minBandanas: Int
+    let caloriesBurned: Int
+    let xpReward: Int
     
-    // Previous performance data
-    let previousAccuracy = Int.random(in: 60...98)
-    let previousTime = Int.random(in: 5...30)
-    let bestAccuracy = Int.random(in: 85...100)
-    let timesCompleted = Int.random(in: 0...50)
+    // Cached previous performance data
+    let previousAccuracy: Int
+    let previousTime: Int
+    let bestAccuracy: Int
+    let timesCompleted: Int
     
     let description = "This exercise is designed to target specific muscle groups and improve overall fitness. Perfect for building strength and endurance while maintaining proper form throughout the movement."
     
-    var equipment: [String] {
+    let equipment: [String]
+    let musclesWorked: [String]
+    let bandanaPositions: [(String, String)]
+    let steps: [String]
+    let tips: [String]
+    
+    init(title: String, duration: String, difficulty: String, category: String) {
+        self.title = title
+        self.duration = duration
+        self.difficulty = difficulty
+        self.category = category
+        
+        // Initialize random data once
+        self.minBandanas = Int.random(in: 1...5)
+        self.caloriesBurned = Int.random(in: 50...500)
+        self.xpReward = Int.random(in: 10...100)
+        
+        self.previousAccuracy = Int.random(in: 60...98)
+        self.previousTime = Int.random(in: 5...30)
+        self.bestAccuracy = Int.random(in: 85...100)
+        self.timesCompleted = Int.random(in: 0...50)
+        
+        // Cache equipment
         let allEquipment = ["No Equipment", "Dumbbells", "Resistance Bands", "Yoga Mat", "Kettlebell", "Pull-up Bar", "Bench", "Medicine Ball"]
-        let count = Int.random(in: 1...3)
-        return Array(allEquipment.shuffled().prefix(count))
-    }
-    
-    var musclesWorked: [String] {
+        let equipmentCount = Int.random(in: 1...3)
+        self.equipment = Array(allEquipment.shuffled().prefix(equipmentCount))
+        
+        // Cache muscles
         let allMuscles = ["Core", "Arms", "Legs", "Back", "Chest", "Shoulders", "Glutes", "Calves", "Abs"]
-        let count = Int.random(in: 2...4)
-        return Array(allMuscles.shuffled().prefix(count))
-    }
-    
-    var bandanaPositions: [(String, String)] {
+        let muscleCount = Int.random(in: 2...4)
+        self.musclesWorked = Array(allMuscles.shuffled().prefix(muscleCount))
+        
+        // Cache bandana positions
         let positions = [
             ("Left Wrist", "For tracking arm movement and rotation"),
             ("Right Wrist", "For tracking arm movement and rotation"),
@@ -51,11 +74,10 @@ struct ExerciseDetailView: View {
             ("Upper Arm", "For tracking bicep and tricep engagement"),
             ("Thigh", "For tracking leg extension and flexion")
         ]
-        return Array(positions.shuffled().prefix(minBandanas))
-    }
-    
-    var steps: [String] {
-        [
+        self.bandanaPositions = Array(positions.shuffled().prefix(self.minBandanas))
+        
+        // Cache steps
+        self.steps = [
             "Begin in the starting position with proper posture and alignment",
             "Engage your core and maintain a neutral spine throughout the movement",
             "Execute the movement slowly and with control, focusing on form",
@@ -63,9 +85,8 @@ struct ExerciseDetailView: View {
             "Complete the specified number of repetitions or hold time",
             "Rest briefly between sets and maintain hydration"
         ]
-    }
-    
-    var tips: [String] {
+        
+        // Cache tips
         let allTips = [
             "Keep your movements controlled and deliberate",
             "Focus on quality over quantity",
@@ -75,7 +96,7 @@ struct ExerciseDetailView: View {
             "Stay hydrated during your workout",
             "Use proper form to prevent injury"
         ]
-        return Array(allTips.shuffled().prefix(3))
+        self.tips = Array(allTips.shuffled().prefix(3))
     }
     
     var difficultyColor: Color {
@@ -88,9 +109,9 @@ struct ExerciseDetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Header with back button
+        VStack(spacing: 0) {
+            // Sticky Header with back button
+            VStack(spacing: 0) {
                 HStack {
                     Button(action: {
                         dismiss()
@@ -117,8 +138,13 @@ struct ExerciseDetailView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-                
-                // Title and category
+                .padding(.bottom, 12)
+                .background(Color.white)
+            }
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Title and category
                 VStack(alignment: .leading, spacing: 8) {
                     Text(title)
                         .font(.DIN(size: 32))
@@ -306,6 +332,70 @@ struct ExerciseDetailView: View {
                                     .stroke(.lightGray, lineWidth: 1)
                             )
                         }
+                    }
+                    
+                    // Verification Button or Success Message
+                    if !bandanasVerified {
+                        Button(action: {
+                            isVerifying = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                isVerifying = false
+                                bandanasVerified = true
+                            }
+                        }) {
+                            HStack {
+                                if isVerifying {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    Text("Verifying...")
+                                        .font(.DIN(size: 16))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                } else {
+                                    Image(systemName: "checkmark.circle")
+                                        .font(.system(size: 18))
+                                    Text("Verify Bandana Placement")
+                                        .font(.DIN(size: 16))
+                                        .fontWeight(.bold)
+                                }
+                                
+                                Spacer()
+                            }
+                            .foregroundStyle(.white)
+                            .padding()
+                            .background(.lightBlue)
+                            .cornerRadius(12)
+                        }
+                        .disabled(isVerifying)
+                        .padding(.top, 8)
+                    } else {
+                        HStack(spacing: 12) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 24))
+                                .foregroundStyle(.green)
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Bandanas Verified! ✓")
+                                    .font(.DIN(size: 16))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.green)
+                                
+                                Text("All bandanas are correctly positioned")
+                                    .font(.DIN(size: 14))
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.black.opacity(0.6))
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding()
+                        .background(.green.opacity(0.1))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(.green.opacity(0.3), lineWidth: 2)
+                        )
+                        .padding(.top, 8)
                     }
                 }
                 .padding(.horizontal)
@@ -568,13 +658,21 @@ struct ExerciseDetailView: View {
                 
                 // Start button
                 PrimitiveButton(content: "Start Exercise", type: .primary) {
-                    // Handle start exercise
+                    showActiveWorkout = true
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 20)
+                }
             }
         }
         .background(Color.white)
+        .fullScreenCover(isPresented: $showActiveWorkout) {
+            ActiveWorkoutView(
+                exerciseName: title,
+                difficulty: difficulty,
+                category: category
+            )
+        }
     }
 }
 

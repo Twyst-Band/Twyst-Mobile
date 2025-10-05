@@ -13,27 +13,48 @@ struct ChallengeDetailView: View {
     let itemCount: Int
     let difficulty: String
     
-    @State private var isEnrolled: Bool = Bool.random()
     @State private var isFavorited: Bool = false
+    @State private var isEnrolled: Bool
     @State private var selectedExercise: (String, String, String, String)? = nil
     
-    // Random mock data
-    let price = Int.random(in: 10...75)
-    let totalXP = Int.random(in: 200...2000)
-    let duration = Int.random(in: 7...90)
-    let participants = Int.random(in: 150...5000)
+    // Cached random mock data
+    let price: Int
+    let totalXP: Int
+    let duration: Int
+    let participants: Int
     
-    // Progress data (if enrolled)
-    let currentDay = Int.random(in: 1...30)
-    let completedDays = Int.random(in: 0...25)
-    let currentStreak = Int.random(in: 0...20)
-    let completionRate = Int.random(in: 60...100)
+    // Cached progress data (if enrolled)
+    let currentDay: Int
+    let completedDays: Int
+    let currentStreak: Int
+    let completionRate: Int
     
-    var description: String {
-        "Transform your fitness journey with this \(duration)-day progressive challenge. Designed for \(difficulty.lowercased()) level participants, this challenge includes daily workouts that increase in intensity as you progress. Join thousands of others and push your limits!"
-    }
+    let description: String
+    let benefits: [String]
+    let dailyExercises: [(String, String, String, String)]
     
-    var benefits: [String] {
+    init(title: String, itemCount: Int, difficulty: String) {
+        self.title = title
+        self.itemCount = itemCount
+        self.difficulty = difficulty
+        
+        // Initialize random data once
+        _isEnrolled = State(initialValue: Bool.random())
+        self.price = Int.random(in: 10...75)
+        self.totalXP = Int.random(in: 200...2000)
+        self.duration = Int.random(in: 7...90)
+        self.participants = Int.random(in: 150...5000)
+        
+        // Initialize progress data
+        self.currentDay = Int.random(in: 1...30)
+        self.completedDays = Int.random(in: 0...25)
+        self.currentStreak = Int.random(in: 0...20)
+        self.completionRate = Int.random(in: 60...100)
+        
+        // Cache description
+        self.description = "Transform your fitness journey with this \(self.duration)-day progressive challenge. Designed for \(difficulty.lowercased()) level participants, this challenge includes daily workouts that increase in intensity as you progress. Join thousands of others and push your limits!"
+        
+        // Cache benefits
         let allBenefits = [
             "Daily structured workouts",
             "Progressive difficulty scaling",
@@ -44,12 +65,11 @@ struct ChallengeDetailView: View {
             "Motivational notifications",
             "Expert coaching tips"
         ]
-        return Array(allBenefits.shuffled().prefix(5))
-    }
-    
-    var dailyExercises: [(String, String, String, String)] {
+        self.benefits = Array(allBenefits.shuffled().prefix(5))
+        
+        // Cache daily exercises
         let exercises = MockLibraryData.allExercises.shuffled()
-        return Array(exercises.prefix(itemCount))
+        self.dailyExercises = Array(exercises.prefix(itemCount))
     }
     
     var difficultyColor: Color {
@@ -66,9 +86,9 @@ struct ChallengeDetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Header with back button
+        VStack(spacing: 0) {
+            // Sticky Header with back button
+            VStack(spacing: 0) {
                 HStack {
                     Button(action: {
                         dismiss()
@@ -95,8 +115,13 @@ struct ChallengeDetailView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-                
-                // Challenge Icon and Title
+                .padding(.bottom, 12)
+                .background(Color.white)
+            }
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Challenge Icon and Title
                 VStack(alignment: .leading, spacing: 12) {
                     Image(systemName: "flag.fill")
                         .font(.system(size: 48))
@@ -507,6 +532,7 @@ struct ChallengeDetailView: View {
                 
                 Spacer()
                     .frame(height: 20)
+                }
             }
         }
         .background(Color.white)

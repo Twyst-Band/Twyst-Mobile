@@ -14,24 +14,38 @@ struct PackDetailView: View {
     let type: String
     let difficulty: String
     
-    @State private var isPurchased: Bool = Bool.random()
     @State private var isFavorited: Bool = false
+    @State private var isPurchased: Bool
     @State private var selectedExercise: (String, String, String, String)? = nil
     
-    // Random mock data
-    let price = Int.random(in: 5...50)
-    let totalXP = Int.random(in: 100...1000)
-    let estimatedDays = Int.random(in: 7...90)
+    // Cached random mock data
+    let price: Int
+    let totalXP: Int
+    let estimatedDays: Int
+    let description: String
+    let benefits: [String]
+    let includedExercises: [(String, String, String, String)]
     
-    var description: String {
+    init(title: String, itemCount: Int, type: String, difficulty: String) {
+        self.title = title
+        self.itemCount = itemCount
+        self.type = type
+        self.difficulty = difficulty
+        
+        // Initialize random data once
+        _isPurchased = State(initialValue: Bool.random())
+        self.price = Int.random(in: 5...50)
+        self.totalXP = Int.random(in: 100...1000)
+        self.estimatedDays = Int.random(in: 7...90)
+        
+        // Cache description
         if type == "pack" {
-            return "This comprehensive exercise pack includes a carefully curated selection of workouts designed to help you achieve your fitness goals. Perfect for \(difficulty.lowercased()) level athletes looking to build strength, improve endurance, and maintain consistency."
+            self.description = "This comprehensive exercise pack includes a carefully curated selection of workouts designed to help you achieve your fitness goals. Perfect for \(difficulty.lowercased()) level athletes looking to build strength, improve endurance, and maintain consistency."
         } else {
-            return "Join this \(estimatedDays)-day challenge to push your limits and transform your fitness journey. This progressive challenge is designed for \(difficulty.lowercased()) level participants and includes daily exercises with increasing difficulty."
+            self.description = "Join this \(self.estimatedDays)-day challenge to push your limits and transform your fitness journey. This progressive challenge is designed for \(difficulty.lowercased()) level participants and includes daily exercises with increasing difficulty."
         }
-    }
-    
-    var benefits: [String] {
+        
+        // Cache benefits
         let allBenefits = [
             "Structured progression system",
             "Complete workout variety",
@@ -42,12 +56,11 @@ struct PackDetailView: View {
             "Video demonstrations",
             "Community support access"
         ]
-        return Array(allBenefits.shuffled().prefix(4))
-    }
-    
-    var includedExercises: [(String, String, String, String)] {
+        self.benefits = Array(allBenefits.shuffled().prefix(4))
+        
+        // Cache included exercises
         let exercises = MockLibraryData.allExercises.shuffled()
-        return Array(exercises.prefix(itemCount))
+        self.includedExercises = Array(exercises.prefix(itemCount))
     }
     
     var difficultyColor: Color {
@@ -64,9 +77,9 @@ struct PackDetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Header with back button
+        VStack(spacing: 0) {
+            // Sticky Header with back button
+            VStack(spacing: 0) {
                 HStack {
                     Button(action: {
                         dismiss()
@@ -93,8 +106,13 @@ struct PackDetailView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-                
-                // Icon and Title
+                .padding(.bottom, 12)
+                .background(Color.white)
+            }
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Icon and Title
                 VStack(alignment: .leading, spacing: 12) {
                     Image(systemName: iconName)
                         .font(.system(size: 48))
@@ -360,6 +378,7 @@ struct PackDetailView: View {
                 
                 Spacer()
                     .frame(height: 20)
+                }
             }
         }
         .background(Color.white)

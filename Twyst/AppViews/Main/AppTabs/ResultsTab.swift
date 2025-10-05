@@ -99,9 +99,8 @@ struct ResultsTab: View {
         weeklyData.reduce(0) { $0 + $1.xp }
     }
     
-    var currentStreak: Int {
-        Int.random(in: 8...15)
-    }
+    // Cached random streak value
+    let currentStreak: Int = Int.random(in: 8...15)
     
     var body: some View {
         VStack(spacing: 0) {
