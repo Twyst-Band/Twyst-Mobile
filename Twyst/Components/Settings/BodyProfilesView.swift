@@ -35,7 +35,46 @@ struct BodyProfilesView: View {
     ]
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+            // Sticky Header
+            HStack {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16))
+                        Text("Back")
+                            .font(.DIN())
+                            .fontWeight(.medium)
+                    }
+                    .foregroundStyle(.lightBlue)
+                }
+                
+                Spacer()
+                
+                Text("Body Profiles")
+                    .font(.DIN(size: 20))
+                    .fontWeight(.bold)
+                    .foregroundStyle(.black.opacity(0.7))
+                
+                Spacer()
+                
+                // Placeholder for symmetry
+                HStack(spacing: 4) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16))
+                    Text("Back")
+                        .font(.DIN())
+                        .fontWeight(.medium)
+                }
+                .opacity(0)
+            }
+            .padding(.horizontal)
+            .padding(.top)
+            .padding(.bottom, 12)
+            .background(Color.white)
+            
             ScrollView {
                 VStack(spacing: 20) {
                     // Info Banner
@@ -158,25 +197,8 @@ struct BodyProfilesView: View {
                 .padding(.top)
             }
             .background(Color.white)
-            .navigationTitle("Body Profiles")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 16))
-                            Text("Back")
-                                .font(.DIN())
-                                .fontWeight(.medium)
-                        }
-                        .foregroundStyle(.lightBlue)
-                    }
-                }
-            }
         }
+        .background(Color.white)
         .fullScreenCover(isPresented: $showAddProfile) {
             AddBodyProfileView()
         }

@@ -448,16 +448,16 @@ struct CalisthenicsTree {
         
         // Level 1 - Branches from basic
         SkillNode(id: 2, name: "Wide Push-up", level: 1, horizontalPosition: -1, prerequisiteIds: [1], xp: 15, difficulty: "Beginner", description: "Widen your stance to target chest muscles", isUnlocked: true, isCompleted: true),
-        SkillNode(id: 3, name: "Diamond Push-up", level: 1, horizontalPosition: 1, prerequisiteIds: [1], xp: 15, difficulty: "Beginner", description: "Focus on triceps with close-hand positioning", isUnlocked: true, isCompleted: false),
+        SkillNode(id: 3, name: "Pull-ups", level: 1, horizontalPosition: 1, prerequisiteIds: [1], xp: 15, difficulty: "Beginner", description: "Build back and arm strength with this fundamental pulling exercise", isUnlocked: true, isCompleted: false),
         
         // Level 2 - Multiple paths converge
         SkillNode(id: 4, name: "Archer Push-up", level: 2, horizontalPosition: -1, prerequisiteIds: [2], xp: 20, difficulty: "Intermediate", description: "Shift weight to one arm for asymmetric strength", isUnlocked: true, isCompleted: false),
-        SkillNode(id: 5, name: "Pike Push-up", level: 2, horizontalPosition: 0, prerequisiteIds: [3], xp: 20, difficulty: "Intermediate", description: "Elevate hips to target shoulders", isUnlocked: true, isCompleted: false),
+        SkillNode(id: 5, name: "Chin-ups", level: 2, horizontalPosition: 0, prerequisiteIds: [3], xp: 20, difficulty: "Intermediate", description: "Underhand grip variation targeting biceps and lats", isUnlocked: true, isCompleted: false),
         SkillNode(id: 6, name: "Decline Push-up", level: 2, horizontalPosition: 1, prerequisiteIds: [2, 3], xp: 18, difficulty: "Intermediate", description: "Elevate feet for increased difficulty", isUnlocked: true, isCompleted: false),
         
         // Level 3 - Advanced convergence
         SkillNode(id: 7, name: "One-Arm Push-up", level: 3, horizontalPosition: -1, prerequisiteIds: [4], xp: 35, difficulty: "Advanced", description: "The ultimate upper body control exercise", isUnlocked: false, isCompleted: false),
-        SkillNode(id: 8, name: "Handstand Push-up", level: 3, horizontalPosition: 0, prerequisiteIds: [5, 6], xp: 40, difficulty: "Advanced", description: "Invert yourself for maximum shoulder strength", isUnlocked: false, isCompleted: false),
+        SkillNode(id: 8, name: "Muscle-up", level: 3, horizontalPosition: 0, prerequisiteIds: [5, 6], xp: 40, difficulty: "Advanced", description: "Combine pull and push movements in one explosive motion", isUnlocked: false, isCompleted: false),
         SkillNode(id: 9, name: "Explosive Push-up", level: 3, horizontalPosition: 1, prerequisiteIds: [6], xp: 30, difficulty: "Advanced", description: "Build explosive power with plyometric movements", isUnlocked: false, isCompleted: false),
         
         // Level 4 - Master level

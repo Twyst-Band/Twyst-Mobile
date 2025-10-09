@@ -17,7 +17,46 @@ struct SecuritySettingsView: View {
     @State private var showPasswordSuccess: Bool = false
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+            // Sticky Header
+            HStack {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16))
+                        Text("Back")
+                            .font(.DIN())
+                            .fontWeight(.medium)
+                    }
+                    .foregroundStyle(.lightBlue)
+                }
+                
+                Spacer()
+                
+                Text("Security Settings")
+                    .font(.DIN(size: 20))
+                    .fontWeight(.bold)
+                    .foregroundStyle(.black.opacity(0.7))
+                
+                Spacer()
+                
+                // Placeholder for symmetry
+                HStack(spacing: 4) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16))
+                    Text("Back")
+                        .font(.DIN())
+                        .fontWeight(.medium)
+                }
+                .opacity(0)
+            }
+            .padding(.horizontal)
+            .padding(.top)
+            .padding(.bottom, 12)
+            .background(Color.white)
+            
             ScrollView {
                 VStack(spacing: 24) {
                     // Change Password
@@ -193,25 +232,8 @@ struct SecuritySettingsView: View {
                 .padding()
             }
             .background(Color.white)
-            .navigationTitle("Security")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 16))
-                            Text("Back")
-                                .font(.DIN())
-                                .fontWeight(.medium)
-                        }
-                        .foregroundStyle(.lightBlue)
-                    }
-                }
-            }
         }
+        .background(Color.white)
         .alert("Password Updated", isPresented: $showPasswordSuccess) {
             Button("OK", role: .cancel) { }
         } message: {

@@ -21,7 +21,33 @@ struct SettingsView: View {
     @State private var showLogoutAlert: Bool = false
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+            // Sticky Header
+            HStack {
+                Spacer()
+                
+                Text("Settings")
+                    .font(.DIN(size: 24))
+                    .fontWeight(.bold)
+                    .foregroundStyle(.black.opacity(0.7))
+                
+                Spacer()
+                
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 16))
+                        .fontWeight(.medium)
+                        .foregroundStyle(.black.opacity(0.6))
+                        .padding(8)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top)
+            .padding(.bottom, 12)
+            .background(Color.white)
+            
             ScrollView {
                 VStack(spacing: 24) {
                     // Profile Section
@@ -238,21 +264,8 @@ struct SettingsView: View {
                 .padding(.top)
             }
             .background(Color.white)
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16))
-                            .fontWeight(.medium)
-                            .foregroundStyle(.black.opacity(0.6))
-                    }
-                }
-            }
         }
+        .background(Color.white)
         .fullScreenCover(isPresented: $showEditProfile) {
             EditProfileView()
         }
