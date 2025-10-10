@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileTab: View {
     @State private var showSettings: Bool = false
+    @State private var showTwystPlus: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -107,6 +108,49 @@ struct ProfileTab: View {
                         
                     }.padding(.top)
                     
+                    // Twyst Plus Button
+                    Button(action: {
+                        showTwystPlus = true
+                    }) {
+                        HStack(spacing: 12) {
+                            Image(systemName: "crown.fill")
+                                .font(.system(size: 20))
+                                .foregroundStyle(.goldYellow)
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Upgrade to Twyst Plus")
+                                    .font(.DIN(size: 16))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.black.opacity(0.7))
+                                
+                                Text("Unlock unlimited exercises & premium features")
+                                    .font(.DIN(size: 12))
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.black.opacity(0.5))
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 14))
+                                .foregroundStyle(.black.opacity(0.3))
+                        }
+                        .padding()
+                        .background(
+                            LinearGradient(
+                                colors: [.goldYellow.opacity(0.1), .goldYellow.opacity(0.05)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(.goldYellow.opacity(0.3), lineWidth: 2)
+                        )
+                    }
+                    .padding(.top)
+                    
                     Text("Overview").font(.DIN(size: 24)).fontWeight(.bold)
                         .foregroundStyle(.black.opacity(0.7)).frame(
                             maxWidth: .infinity, alignment: .leading).padding(.top)
@@ -138,6 +182,9 @@ struct ProfileTab: View {
             .ignoresSafeArea(.all, edges: .top)
             .fullScreenCover(isPresented: $showSettings) {
                 SettingsView()
+            }
+            .fullScreenCover(isPresented: $showTwystPlus) {
+                TwystPlusView()
             }
         }
     }
